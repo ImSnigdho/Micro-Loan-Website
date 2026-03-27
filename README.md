@@ -15,9 +15,6 @@ A robust, mobile-responsive financial platform built with **Django**. Designed t
 - **Database:** SQLite (Development) / PostgreSQL (Production)
 - **Deployment:** Render / PythonAnywhere
 
-## 📸 Screenshots
-*(Pro-tip: Upload your best UI screenshots to an 'IMG' folder and link them here)*
-![Dashboard](IMG/dashboard_screenshot.png)
 
 ## ⚙️ Installation & Setup
 1. **Clone the repo:**
