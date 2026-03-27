@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>নিবন্ধন করুন — {{ settings.site_name }}</title>
+  <link rel="stylesheet" href="{% static 'loans/style.css' %}">
+</head>
+<body>
+<div class="app-wrapper">
+  <div class="auth-page fade-in">
+
+    <!-- Logo -->
+    <div class="auth-logo-placeholder">
+      <span>MP</span>
+    </div>
+
+    <h1 class="auth-title">নিবন্ধন করুন</h1>
+
+    {% if form.errors %}
+    <div style="width:100%;max-width:420px; margin-bottom:16px;">
+      {% for field in form %}{% for err in field.errors %}
+        <div class="alert alert-error">{{ err }}</div>
+      {% endfor %}{% endfor %}
+      {% for err in form.non_field_errors %}
+        <div class="alert alert-error">{{ err }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="auth-form" id="register-form">
+      {% csrf_token %}
+
+      <!-- Username -->
+      <div class="form-group">
+        <label class="form-label">ইউজার নেম</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <input type="text" name="username" class="form-input" placeholder="আপনার ইউজার নেম লিখুন" required value="{{ form.username.value|default:'' }}" id="id_username">
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label class="form-label">মোবাইল নম্বর</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.92-.9a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <input type="tel" name="phone" class="form-input" placeholder="01XXXXXXXXX" required value="{{ form.phone.value|default:'' }}" id="id_phone">
+        </div>
+      </div>
+
+      <!-- Occupation -->
+      <div class="form-group">
+        <label class="form-label">পেশা</label>
+        <div class="input-wrapper select-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            </svg>
+          </div>
+          <select name="occupation" class="form-input" id="id_occupation">
+            {% for val, label in form.fields.occupation.choices %}
+            <option value="{{ val }}" {% if form.occupation.value == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+          <div class="select-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label class="form-label">পাসওয়ার্ড</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <input type="password" name="password" class="form-input" placeholder="পাসওয়ার্ড দিন" required id="id_password">
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label class="form-label">পাসওয়ার্ড নিশ্চিত করুন</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <input type="password" name="password2" class="form-input" placeholder="পাসওয়ার্ড পুনরায় লিখুন" required id="id_password2">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-teal" id="register-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+        </svg>
+        রেজিস্টার
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      ইতিমধ্যে অ্যাকাউন্ট আছে? <a href="{% url 'login' %}">লগইন করুন</a>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

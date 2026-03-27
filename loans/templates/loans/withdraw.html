@@ -1,0 +1,99 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}উইথড্রো — {{ settings.site_name }}{% endblock %}
+{% block nav_home %}{% endblock %}
+
+{% block content %}
+<div class="card fade-in" style="margin-top:0;">
+
+  <!-- Payment Method -->
+  <div class="form-group">
+    <label class="form-label">পেমেন্ট মেথড নির্বাচন করুন</label>
+    <form method="post" id="withdraw-form">
+      {% csrf_token %}
+      <div class="payment-methods">
+        <!-- bKash -->
+        <div>
+          <input type="radio" name="payment_method" value="bkash" class="payment-option" id="pm-bkash" checked>
+          <label for="pm-bkash" class="payment-label">
+            <img src="{% static 'loans/images/bkash.jpg' %}" alt="bKash" style="width:44px; height:44px; object-fit:contain;">
+            <span>বিকাশ</span>
+          </label>
+        </div>
+        <!-- Nagad -->
+        <div>
+          <input type="radio" name="payment_method" value="nagad" class="payment-option" id="pm-nagad">
+          <label for="pm-nagad" class="payment-label">
+            <img src="{% static 'loans/images/nagad.jpg' %}" alt="Nagad" style="width:44px; height:44px; object-fit:contain;">
+            <span>নগদ</span>
+          </label>
+        </div>
+        <!-- Rocket -->
+        <div>
+          <input type="radio" name="payment_method" value="rocket" class="payment-option" id="pm-rocket">
+          <label for="pm-rocket" class="payment-label">
+            <img src="{% static 'loans/images/rocket.jpg' %}" alt="Rocket" style="width:44px; height:44px; object-fit:contain;">
+            <span>রকেট</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Number display (dynamic per method) -->
+      <div style="background:var(--teal-light);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:14px;color:var(--teal);font-weight:600;" id="payment-number-display">
+        বিকাশ নম্বর: {{ settings.bkash_number }}
+      </div>
+
+      <!-- Amount -->
+      <div class="form-group">
+        <label class="form-label">টাকার পরিমাণ</label>
+        <div class="input-wrapper no-icon">
+          <input type="number" name="amount" class="form-input" placeholder="টাকা লিখুন" required min="1" max="{{ profile.balance }}" id="withdraw-amount">
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label class="form-label">আপনার নাম্বার</label>
+        <div class="input-wrapper">
+          <input type="text" name="phone_number" class="form-input" style="padding-left:14px;" placeholder="আপনার নাম্বার লিখুন" required id="withdraw-phone">
+          <button type="button" class="input-copy-btn" onclick="copyPhone()" title="Copy">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-teal" id="withdraw-btn">উইথড্রাউ করুন</button>
+    </form>
+  </div>
+
+</div>
+
+<!-- Balance info -->
+<div style="text-align:center;padding:0 16px 16px;color:var(--text-mid);font-size:14px;">
+  আপনার বর্তমান ব্যালেন্স: <strong style="color:var(--teal);">৳{{ profile.balance }}</strong>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const numbers = {
+  bkash:  '{{ settings.bkash_number }}',
+  nagad:  '{{ settings.nagad_number }}',
+  rocket: '{{ settings.rocket_number }}',
+};
+const labels = { bkash:'বিকাশ', nagad:'নগদ', rocket:'রকেট' };
+document.querySelectorAll('.payment-option').forEach(function(r){
+  r.addEventListener('change', function(){
+    const m = this.value;
+    document.getElementById('payment-number-display').textContent = labels[m] + ' নম্বর: ' + numbers[m];
+  });
+});
+function copyPhone(){
+  const input = document.getElementById('withdraw-phone');
+  input.select(); document.execCommand('copy');
+}
+</script>
+{% endblock %}

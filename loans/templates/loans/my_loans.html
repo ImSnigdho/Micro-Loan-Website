@@ -1,0 +1,32 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}আমার লোন — {{ settings.site_name }}{% endblock %}
+
+{% block content %}
+<h2 class="section-title" style="margin-top:4px;">আমার লোনসমূহ</h2>
+
+{% if loans %}
+  <div style="padding:0 16px 16px;">
+    {% for loan in loans %}
+    <a href="{% url 'loan_detail' loan.pk %}" class="loan-card" style="display:flex;">
+      <div class="loan-card-info">
+        <div class="loan-amount">৳{{ loan.amount|floatformat:2 }}</div>
+        <div class="loan-meta">{{ loan.duration_months }} মাস • {{ loan.get_purpose_display }} • {{ loan.applied_at|date:"d M Y" }}</div>
+      </div>
+      <span class="status-badge status-{{ loan.status }}">{{ loan.get_status_display }}</span>
+    </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+    <p>এখনো কোনো লোন আবেদন নেই</p>
+  </div>
+  <div style="padding:0 16px;">
+    <a href="{% url 'loan_apply' %}" class="btn btn-teal">লোন আবেদন করুন</a>
+  </div>
+{% endif %}
+{% endblock %}

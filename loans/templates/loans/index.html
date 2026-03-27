@@ -1,0 +1,144 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}হোম — {{ settings.site_name }}{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<!-- ── Hero ── -->
+<section class="hero-section fade-in">
+  <h1 class="hero-title">স্বাগতম, জনাব!</h1>
+  <p class="hero-subtitle">আপনার আর্থিক সহায়তার জন্য আমরা প্রস্তুত</p>
+  <a href="{% url 'loan_apply' %}" class="hero-cta" id="hero-loan-btn">
+    <span class="cta-icon">💰</span> লোন আবেদন করুন
+  </a>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── Icon Grid ── -->
+<section style="padding: 20px 16px 8px;">
+  <div class="icon-grid">
+    <!-- Row 1 -->
+    <a href="{% url 'loan_apply' %}" class="icon-item">
+      <div class="icon-circle teal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="10" y1="10" x2="14" y2="10"/>
+        </svg>
+      </div>
+      <span class="icon-label">লোন আবেদন</span>
+    </a>
+    <a href="{% url 'withdraw' %}" class="icon-item">
+      <div class="icon-circle green">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="9" y1="12" x2="15" y2="12"/>
+        </svg>
+      </div>
+      <span class="icon-label">ক্যাশ আউট</span>
+    </a>
+    <a href="{% url 'transactions' %}" class="icon-item">
+      <div class="icon-circle yellow">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+        </svg>
+      </div>
+      <span class="icon-label">জমা দিন</span>
+    </a>
+    <a href="{% url 'profile' %}" class="icon-item">
+      <div class="icon-circle purple">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <span class="icon-label">প্রোফাইল</span>
+    </a>
+    <!-- Row 2 -->
+    <a href="{% url 'my_loans' %}" class="icon-item">
+      <div class="icon-circle orange">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+      </div>
+      <span class="icon-label">আমার লোন</span>
+    </a>
+    <a href="{% url 'transactions' %}" class="icon-item">
+      <div class="icon-circle cyan">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+      </div>
+      <span class="icon-label">লেনদেনসমূহ</span>
+    </a>
+    <a href="#" class="icon-item">
+      <div class="icon-circle pink">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <span class="icon-label">যোগাযোগ</span>
+    </a>
+    <a href="#" class="icon-item">
+      <div class="icon-circle red">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <span class="icon-label">সম্পর্কে</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── Promo Banner ── -->
+<div class="promo-banner" style="position:relative; overflow:hidden;">
+  <div class="promo-text">
+    <div class="promo-tagline">{{ settings.banner_tagline }}</div>
+    <div class="promo-sub">{{ settings.banner_sub }}</div>
+  </div>
+</div>
+
+<!-- ── Interest Badge ── -->
+<div class="interest-badge-section">
+  <span class="interest-badge">{{ settings.interest_rate_min }}–{{ settings.interest_rate_max }}% ইন্টারেস্ট এ</span>
+</div>
+
+<!-- ── Partners ── -->
+<div class="partners-section">
+  <p>বিশ্বস্ত আর্থিক প্রতিষ্ঠান থেকে সেবা নিন</p>
+  <div class="partners-title">আমাদের পার্টনার</div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Info Popup shown on first load -->
+<div class="modal-overlay active" id="infoModal">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+      </svg>
+    </div>
+    <h2 class="modal-title">গুরুত্বপূর্ণ নির্দেশনা</h2>
+    <p class="modal-body">
+      দয়া করে মনে রাখবেন: অবশ্যই সঠিক মোবাইল নাম্বার এবং NID দিয়ে লোন আবেদন করুন।
+      কিভাবে সঠিকভাবে লোন আবেদন করবেন তা অবশ্যই নিচে ইউটিউব আইকনে ক্লিক করে
+      সম্পূর্ণ ভিডিওটি দেখে নিন এবং সেই অনুযায়ী আবেদন করুন।
+    </p>
+    <div class="modal-actions-row">
+      <a href="{{ settings.youtube_url }}" target="_blank" class="btn btn-red" id="yt-link-btn">
+        <svg viewBox="0 0 24 24" fill="white" width="20" height="20"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#e53935"/></svg>
+        ভিডিও দেখুন
+      </a>
+      <button class="btn btn-green" onclick="closeModal('infoModal')" id="understood-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg>
+        বুঝতে পেরেছি
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+</script>
+{% endblock %}

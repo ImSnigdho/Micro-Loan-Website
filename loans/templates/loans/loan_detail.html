@@ -1,0 +1,127 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}লোন বিস্তারিত — {{ settings.site_name }}{% endblock %}
+{% block header %}
+<header class="page-header">
+  <button class="page-header-back" onclick="history.back()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </svg>
+  </button>
+  <span class="page-header-title">LOAN APPLICATION</span>
+</header>
+{% endblock %}
+
+{% block content %}
+
+<!-- Amount Detail -->
+<h2 class="section-title" style="margin-top:16px;">অ্যামাউন্ট বিস্তারিত</h2>
+
+<div class="card" style="padding:0;overflow:hidden;">
+  <table class="detail-table">
+    <tr><td>লোনের পরিমাণ:</td><td>৳{{ loan.amount|floatformat:2 }}</td></tr>
+    <tr><td>ইন্টারেস্ট রেট:</td><td>{{ loan.interest_rate }}%</td></tr>
+    <tr><td>মোট ইন্টারেস্ট:</td><td>৳{{ loan.total_interest }}</td></tr>
+    <tr><td>মোট পরিশোধযোগ্য:</td><td>৳{{ loan.total_payable }}</td></tr>
+    <tr><td>জামানত:</td><td>৳{{ loan.security_deposit|floatformat:2 }}</td></tr>
+  </table>
+</div>
+
+<div class="proceed-btn-wrap">
+  {% if loan.nid_front %}
+    <a href="{% url 'home' %}" class="btn btn-teal">এগিয়ে যান</a>
+  {% else %}
+    <button class="btn btn-teal" onclick="showNIDModal()" id="proceed-btn">এগিয়ে যান</button>
+  {% endif %}
+</div>
+
+<!-- Repayment Schedule -->
+<h2 class="section-title">পরিশোধের সময়সূচি</h2>
+<div style="padding: 0 16px 16px;">
+  {% for item in schedule %}
+  <div class="schedule-card">
+    <div class="schedule-date">{{ item.date }}</div>
+    <div class="schedule-amount">{{ item.total }}</div>
+    <div class="schedule-breakdown">
+      <span>আসল: {{ item.principal }}</span>
+      <span>ইন্টারেস্ট: {{ item.interest }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- NID Upload Modal -->
+<div class="modal-overlay" id="nidModal" data-autoshow="{% if not loan.nid_front %}1{% else %}0{% endif %}">
+  <div class="modal-box">
+    <h2 class="modal-title teal">জাতীয় পরিচয়পত্র আপলোড</h2>
+    <p class="modal-body">
+      আপনি ৳{{ loan.amount|floatformat:2 }} টাকার লোনের জন্য আবেদন করেছেন
+      {{ loan.duration_months|floatformat:2 }} মাস মেয়াদে। দয়া করে আপনার জাতীয়
+      পরিচয়পত্র আপলোড করুন।
+    </p>
+
+    <form method="post" action="{% url 'loan_detail' loan.pk %}" enctype="multipart/form-data" id="nid-form">
+      {% csrf_token %}
+      <input type="hidden" name="submit_nid" value="1">
+      <input type="hidden" name="loan_id" value="{{ loan.pk }}">
+
+      <div class="nid-grid">
+        <!-- NID Front -->
+        <div class="nid-upload-box" id="nid-front-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h.01M11 15h2"/>
+          </svg>
+          <span>NID Front</span>
+          <input type="file" name="nid_front" accept="image/*" id="nid-front-input"
+                 onchange="previewNID(this,'nid-front-preview','nid-front-box')">
+          <img id="nid-front-preview" class="nid-preview" alt="NID Front">
+        </div>
+
+        <!-- NID Back -->
+        <div class="nid-upload-box" id="nid-back-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h.01M11 15h2"/>
+          </svg>
+          <span>NID Back</span>
+          <input type="file" name="nid_back" accept="image/*" id="nid-back-input"
+                 onchange="previewNID(this,'nid-back-preview','nid-back-box')">
+          <img id="nid-back-preview" class="nid-preview" alt="NID Back">
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-teal" id="submit-nid-btn">ডকুমেন্ট জমা দিন</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('nidModal')" id="cancel-nid-btn">বাতিল করুন</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function showNIDModal(){ document.getElementById('nidModal').classList.add('active'); }
+function closeModal(id){ document.getElementById(id).classList.remove('active'); }
+function previewNID(input, previewId, boxId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById(boxId).classList.add('has-file');
+    document.getElementById(boxId).querySelector('svg').style.display = 'none';
+    document.getElementById(boxId).querySelector('span').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+// Auto-show NID modal if no NID uploaded yet
+const _nidModal = document.getElementById('nidModal');
+if(_nidModal && _nidModal.dataset.autoshow === '1'){
+  window.addEventListener('DOMContentLoaded', function(){ showNIDModal(); });
+}
+</script>
+{% endblock %}

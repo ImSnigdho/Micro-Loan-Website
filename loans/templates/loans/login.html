@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>লগইন — {{ settings.site_name }}</title>
+  <link rel="stylesheet" href="{% static 'loans/style.css' %}">
+</head>
+<body>
+<div class="app-wrapper">
+  <div class="auth-page fade-in">
+
+    <div class="auth-logo-placeholder">
+      <span>MP</span>
+    </div>
+
+    <h1 class="auth-title">লগইন করুন</h1>
+
+    {% if form.errors %}
+    <div style="width:100%;max-width:420px;margin-bottom:16px;">
+      {% for err in form.non_field_errors %}<div class="alert alert-error">{{ err }}</div>{% endfor %}
+    </div>
+    {% endif %}
+    {% if messages %}
+    <div style="width:100%;max-width:420px;margin-bottom:16px;">
+      {% for msg in messages %}<div class="alert alert-{{ msg.tags }}">{{ msg }}</div>{% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="auth-form" id="login-form">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label">ইউজার নেম</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <input type="text" name="username" class="form-input" placeholder="ইউজার নেম লিখুন" required id="id_username">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">পাসওয়ার্ড</label>
+        <div class="input-wrapper">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <input type="password" name="password" class="form-input" placeholder="পাসওয়ার্ড দিন" required id="id_password">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-teal" id="login-btn">লগইন করুন</button>
+    </form>
+
+    <div class="auth-footer">
+      অ্যাকাউন্ট নেই? <a href="{% url 'register' %}">নিবন্ধন করুন</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

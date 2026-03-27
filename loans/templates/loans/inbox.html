@@ -1,0 +1,29 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}ইনবক্স — {{ settings.site_name }}{% endblock %}
+{% block nav_inbox %}active{% endblock %}
+
+{% block content %}
+<h2 class="section-title" style="margin-top:4px;">ইনবক্স</h2>
+
+{% if messages_list %}
+  <div style="padding:0 16px 16px;">
+    {% for msg in messages_list %}
+    <div class="inbox-item {% if not msg.is_read %}unread{% endif %}">
+      <div class="inbox-title">{{ msg.title }}</div>
+      <div class="inbox-body">{{ msg.body }}</div>
+      <div class="inbox-date">{{ msg.created_at|date:"d M Y, H:i" }}</div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+      <polyline points="22,6 12,13 2,6"/>
+    </svg>
+    <p>কোনো বার্তা নেই</p>
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}লেনদেন — {{ settings.site_name }}{% endblock %}
+
+{% block content %}
+<h2 class="section-title" style="margin-top:4px;">লেনদেনসমূহ</h2>
+
+{% if transactions %}
+  <div style="padding:0 16px 16px;">
+    {% for txn in transactions %}
+    <div class="txn-item">
+      <div>
+        <div style="font-weight:600;font-size:14px;color:var(--text-dark);">{{ txn.get_transaction_type_display }}</div>
+        <div class="txn-type">{{ txn.get_payment_method_display }} • {{ txn.created_at|date:"d M Y" }}</div>
+      </div>
+      {% if txn.transaction_type == 'withdrawal' or txn.transaction_type == 'loan_repayment' %}
+        <div class="txn-amount-negative">-৳{{ txn.amount }}</div>
+      {% else %}
+        <div class="txn-amount-positive">+৳{{ txn.amount }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+    </svg>
+    <p>কোনো লেনদেন নেই</p>
+  </div>
+{% endif %}
+{% endblock %}

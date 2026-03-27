@@ -1,0 +1,110 @@
+{% extends 'loans/base.html' %}
+{% load static %}
+
+{% block title %}লোন আবেদন — {{ settings.site_name }}{% endblock %}
+{% block nav_loan %}active{% endblock %}
+{% block header %}
+<header class="page-header">
+  <button class="page-header-back" onclick="history.back()" id="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </svg>
+  </button>
+  <span class="page-header-title">LOAN APPLICATION</span>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="card fade-in" style="margin-top:0;">
+  <h2 class="card-title">লোন আবেদন ফর্ম</h2>
+
+  {% if form.errors %}
+  {% for f in form %}{% for e in f.errors %}<div class="alert alert-error">{{ e }}</div>{% endfor %}{% endfor %}
+  {% endif %}
+
+  <form method="post" id="loan-form">
+    {% csrf_token %}
+    <input type="hidden" name="apply_loan" value="1">
+
+    <!-- Name -->
+    <div class="form-group">
+      <label class="form-label">আপনার নাম:</label>
+      <div class="input-wrapper">
+        <div class="input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <input type="text" name="applicant_name" class="form-input" placeholder="Enter your name" required
+               value="{{ form.applicant_name.value|default:'' }}" id="id_applicant_name">
+      </div>
+    </div>
+
+    <!-- Amount -->
+    <div class="form-group">
+      <label class="form-label">লোনের পরিমাণ:</label>
+      <div class="input-wrapper select-wrapper">
+        <div class="input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+        <select name="amount" class="form-input" id="id_amount">
+          {% for val, label in form.fields.amount.choices %}
+          <option value="{{ val }}" {% if form.amount.value == val|stringformat:"s" %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <div class="select-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+
+    <!-- Duration -->
+    <div class="form-group">
+      <label class="form-label">মেয়াদ (মাস):</label>
+      <div class="input-wrapper select-wrapper">
+        <div class="input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <select name="duration_months" class="form-input" id="id_duration">
+          {% for val, label in form.fields.duration_months.choices %}
+          <option value="{{ val }}" {% if form.duration_months.value == val|stringformat:"s" %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <div class="select-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+
+    <!-- Purpose -->
+    <div class="form-group">
+      <label class="form-label">লোনের কারণ:</label>
+      <div class="input-wrapper select-wrapper">
+        <div class="input-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+        </div>
+        <select name="purpose" class="form-input" id="id_purpose">
+          {% for val, label in form.fields.purpose.choices %}
+          <option value="{{ val }}" {% if form.purpose.value == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+        <div class="select-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-teal" id="apply-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      আবেদন করুন
+    </button>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- NID Upload Modal (shown after form submit via redirect to detail, but also inline here if needed) -->
+{% endblock %}
