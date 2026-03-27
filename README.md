@@ -20,3 +20,12 @@ A robust, mobile-responsive financial platform built with **Django**. Designed t
 1. **Clone the repo:**
    ```bash
    git clone [https://github.com/ImSnigdho/Micro-Loan-Website.git](https://github.com/ImSnigdho/Micro-Loan-Website.git)
+
+
+## 👤 Author
+
+**Nowrid Ifrad Snigdho** *Aspiring Software Engineer & SSC 2026 Candidate* 🎓
+
+- **GitHub:** [@ImSnigdho](https://github.com/ImSnigdho)  
+- **Focus:** Python, Django, Machine Learning, and Automated Bot Development.  
+- **Current Goal:** Preparing for SSC Exams while building real-world fintech solutions. 🚀
