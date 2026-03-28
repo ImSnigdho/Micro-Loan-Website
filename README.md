@@ -11,7 +11,7 @@ A robust, mobile-responsive financial platform built with **Django**. Designed t
 
 ## 🛠️ Tech Stack
 - **Backend:** Django (Python)
-- **Frontend:** HTML5, CSS3, JavaScript
+- **Frontend:** HTML5, CSS3, JavaScript.
 - **Database:** SQLite (Development) / PostgreSQL (Production)
 - **Deployment:** Render / PythonAnywhere
 
