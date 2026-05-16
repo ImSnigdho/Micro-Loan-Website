@@ -3,7 +3,7 @@
 A robust, mobile-responsive financial platform built with **Django**. Designed to provide a seamless loan application experience with a focus on the Bangladeshi market (bKash/Nagad/Rocket integration).
 
 ## 🚀 Key Features
-- **Dynamic Dashboard:** Real-time balance toggle (bKash style) and transaction history.
+- **Dynamic Dashboard:** Real time balance toggle (bKash style) and transaction history.
 - **Loan Logic:** Automated interest calculations (default 3%) and repayment scheduling.
 - **NID Verification:** Secure document upload for user identification.
 - **Admin Control Center:** Singleton-based settings to update payment numbers and YouTube promo links without touching code.
